@@ -1,26 +1,8 @@
 """
-Python 2.7.3 (default, Mar 18 2014, 05:13:23) 
-[GCC 4.6.3] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
->>> import numpy as N
->>> import array
->>> f = open('10.dat','rb')
->>> binv = array.array('f')
->>> binv.read(f,100)
->>> N.array(binv,N.float)
-array([ 5744.,  5740.,  5731.,  5723.,  5632.,  5684.,  5646.,  5733.,
-        5671.,  5631.,  5669.,  5662.,  5670.,  5673.,  5680.,  5660.,
-        5669.,  5697.,  5654.,  5720.,  5633.,  5627.,  5642.,  5614.,
-        5625.,  5641.,  5629.,  5663.,  5727.,  5716.,  5754.,  5721.,
-        5691.,  5715.,  5725.,  5704.,  5694.,  5708.,  5688.,  5684.,
-        5718.,  5702.,  5705.,  5729.,  5706.,  5740.,  5770.,  5721.,
-        5790.,  5746.,  5724.,  5713.,  5723.,  5699.,  5701.,  5709.,
-        5686.,  5772.,  5699.,  5685.,  5682.,  5725.,  5738.,  5731.,
-        5761.,  5698.,  5711.,  5695.,  5684.,  5718.,  5700.,  5709.,
-        5705.,  5716.,  5669.,  5702.,  5691.,  5695.,  5717.,  5715.,
-        5734.,  5726.,  5736.,  5709.,  5712.,  5696.,  5736.,  5749.,
-        5708.,  5699.,  5630.,  5699.,  5784.,  5679.,  5725.,  5691.,
-        5638.,  5743.,  5682.,  5700.])
+What a pity the metadata is so incomplete - the id is simply the feed id whose corresponding
+name is in mysql. 
+
+Fugly.
 
 """
 
@@ -70,7 +52,8 @@ for prefix in prefs:
     outf.write('\n'.join(e.data))
     outf.write('\n')
     outf.close()
-
+    dats.append(e.data)
+    # whatever else you need to do...
 
 
   
