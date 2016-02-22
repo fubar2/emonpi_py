@@ -1,4 +1,7 @@
 """
+read 4 byte float data and metadata for a php emoncms 8.5 data file
+ross feb 22 2016
+
 What a pity the metadata is so incomplete - the id is simply the feed id whose corresponding
 name is in mysql. 
 
@@ -6,8 +9,6 @@ Fugly.
 
 """
 
-# read 4 byte float data and metadata for a php emoncms data file
-# ross feb 22 2016
 
 import os
 import numpy as N
