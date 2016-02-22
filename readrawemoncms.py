@@ -5,7 +5,7 @@ ross feb 22 2016
 What a pity the metadata is so incomplete - the id is simply the feed id whose corresponding
 name is in mysql. 
 
-Fugly.
+Fugly conversion from binary
 
 """
 
@@ -13,10 +13,12 @@ Fugly.
 import os
 import numpy as N
 import array
-import datetime
 import time
+import logging
 
-fromdir = '/home/pi/data/phpfina/'
+
+FROM_DIR = '/home/pi/data/phpfina/'
+LOG_ON = True
 
 class emoncmsdat():
 
@@ -28,10 +30,11 @@ class emoncmsdat():
            m = array.array('L')
            m.read(ffm,4)
            metId,metNpoints,metInterval,metStarted = N.array(m,N.uint32)
-           print 'file %s: id=%d, npoints=%d, interval=%d, started=%s' % (fm,metId,metNpoints,metInterval,time.ctime(metStarted))
+           lognote = 'file %s: id=%d, npoints=%d, interval=%d, started=%s' % (fm,metId,metNpoints,metInterval,time.ctime(metStarted))
+           if LOG_ON:
+              logging.info(lognote)
            tstart = time.ctime(int(metStarted))
            ffd = open(fd,'rb').read()
-           dN = len(ffd)/4
            d = array.array('f')
            d.fromstring(ffd)
 	   self.data = []
@@ -39,17 +42,24 @@ class emoncmsdat():
                t = metStarted + metInterval*i
                if (kw != kw): # tests for NaN
                  kw = 0
-               v = '%d\t%6.1f\t%s' % (t,kw,time.ctime(t))
+               thistime = time.ctime(t)
+               v = '%d\t%6.1f\t%s' % (t,kw,thistime)
                self.data.append(v)
-           print '# Read %d values from %s, id=%s, at interval %d starting %s' % (dN,fd,metId,metInterval,tstart)
+           dN = len(ffd)/4
+           lognote = '# Read #%d, from %s, id = %s, interval = %d start time = %s' % (dN,fd,metId,metInterval,tstart)
+           logging.info(lognote)
 
-flist = os.listdir(fromdir)
+logging.basicConfig(filename='readrawemoncms.log',level=logging.DEBUG,\
+  format='%(asctime)s:%(levelname)s:%(message)s', filemode='w')
+flist = os.listdir(FROM_DIR)
 prefs = [x.split('.')[0] for x in flist if ((x.split('.')[1] == 'dat') & ('%s.meta' % x.split('.')[0] in flist))]
 dats = []
+lognote = 'readrawemoncms found %s feeds in %s' % (','.join(prefs),FROM_DIR)
+logging.info(lognote)
 for prefix in prefs:
-    e = emoncmsdat(os.path.join(fromdir,prefix))
+    e = emoncmsdat(os.path.join(FROM_DIR,prefix))
     outf = open('%s.xls' % prefix,'w')
-    outf.write('traw\tkw\ttime\n')
+    outf.write('traw\tkw\ttime\tsource\n')
     outf.write('\n'.join(e.data))
     outf.write('\n')
     outf.close()
