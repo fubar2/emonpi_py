@@ -1,5 +1,5 @@
 # emonpi_py
-Python code to parse emoncms/emonhub php data files
+Python code to parse emoncms/emonhub v8.5 php data files
 
 The filesystem meta and dat files are unfortunately not the whole story because essential metadata like 
 the name of the feed is stowed in mysql. 
