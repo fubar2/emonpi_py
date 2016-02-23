@@ -1,5 +1,10 @@
 # emonpi_py
 
+feb 23
+Added a simple mqtt test which does the needful for collecting future data
+
+For legacy data:
+
 Python code to parse emoncms/emonhub v8.5 php data files
 
 The filesystem meta and dat files are unfortunately not the whole story because essential metadata like 
