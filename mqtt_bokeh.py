@@ -17,6 +17,7 @@ import numpy as np
 from bokeh.models import Button, NumeralTickFormatter
 from bokeh.palettes import RdYlBu3
 from bokeh.plotting import *
+from bokeh.properties import value
 import paho.mqtt.client as mqtt
 import time
 import datetime
@@ -68,7 +69,12 @@ class mq():
 # prepare output to server
 # output_server("test_power")
 # create a plot and style its properties
-p = figure(plot_width=800, plot_height=600,x_axis_type="datetime")
+p = figure(plot_width=800, plot_height=600, x_axis_type="datetime")
+
+
+p.xaxis.axis_label = "Time"
+p.xaxis.axis_label_text_color = "darkred"
+p.axis.major_label_text_font_size=value("10pt")
 p.xaxis.major_label_orientation = "vertical"
 
 # add a text renderer to out plot (no data yet)
