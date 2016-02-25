@@ -7,6 +7,7 @@ import paho.mqtt.client as mqtt
 import time
 
 OUTFNAME = 'mqtt_emon.xls'
+PI_IP = "192.168.1.3" # YMMV
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -32,7 +33,7 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect("127.0.0.1", 1883, 60)
+client.connect(PI_IP, 1883, 60)
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.

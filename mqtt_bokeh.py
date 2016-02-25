@@ -14,14 +14,17 @@ http://localhost:5006/myapp
 """
 import numpy as np
 
-from bokeh.models import Button
+from bokeh.models import Button, NumeralTickFormatter
 from bokeh.palettes import RdYlBu3
-from bokeh.plotting import figure, curdoc, vplot
+from bokeh.plotting import *
 import paho.mqtt.client as mqtt
 import time
+import datetime
 import sys
 
 OUTFNAME = 'mqtt_emon.xls'
+SERVER_IP = "192.168.1.3" ### ymmv
+SUBSCRIPTIONS = 'emonhub/rx/5/values'
 
 class mq():
 
@@ -30,9 +33,8 @@ class mq():
     # test direct access to emoncms
     # will append to outfile so delete to start again
 
-    def __init__(self,outfname='mqtt_emon.xls',subs='emonhub/rx/5/values',
-           server = "127.0.0.1",port=1883,timeout=60,looptimeout=1,ds=None):
-	self.OUTFNAME = outfname
+    def __init__(self,outfname,subs,server,port,timeout,looptimeout,ds):
+        self.OUTFNAME = outfname
         self.subs = subs
         self.server = server
         self.port = port
@@ -56,31 +58,32 @@ class mq():
     # The callback for when a PUBLISH message is received from the server.
     def on_message(self,client, userdata, msg):
         t = time.time()
+        tdt = datetime.datetime.fromtimestamp(t)
         powr = msg.payload.split(',')[0] # take power as first
         print >> sys.stdout,'@',t,'y=',powr
-        self.ds.data['x'].append(t)
+        self.ds.data['x'].append(tdt)
         self.ds.data['y'].append(powr)
         self.ds.trigger('data', self.ds.data, self.ds.data)
 
 # prepare output to server
 # output_server("test_power")
 # create a plot and style its properties
-p = figure(plot_width=800, plot_height=600)
+p = figure(plot_width=800, plot_height=600,x_axis_type="datetime")
+p.xaxis.major_label_orientation = "vertical"
 
 # add a text renderer to out plot (no data yet)
-p.line(x=[], y=[], name="power_line",line_width="2",line_color="blue" )
+p.line(x=[], y=[], name="power_line",line_width="2",line_color="blue")
 renderer = p.select(dict(name="power_line"))
 ds = renderer[0].data_source
 
-m = mq(outfname='mqtt_emon.xls',subs='emonhub/rx/5/values',
-           server = "127.0.0.1",port=1883,timeout=60,looptimeout=1,ds=ds)
+m = mq(outfname='mqtt_emon.xls',subs=SUBSCRIPTIONS,
+           server = SERVER_IP,port=1883,timeout=60,looptimeout=1,ds=ds)
 
 def callstop():
     m.client.loop_stop()
     sys.exit(0)
 
 def update():
-    print >> sys.stdout, 'up %f' % time.time()
     m.client.loop(timeout=0.5)
 
 # add a button widget and configure with the call back

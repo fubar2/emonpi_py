@@ -1,5 +1,10 @@
 # emonpi_py
 
+feb 25
+Have a bokeh power stripchart working !!
+Date times on x axis need fixin but, holy sheet it works.
+
+
 feb 23
 Added a simple mqtt test which does the needful for collecting future data
 
