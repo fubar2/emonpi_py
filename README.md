@@ -1,5 +1,10 @@
 # emonpi_py
 
+feb 26
+mqtt_bokeh.py will plot from mqtt 
+emondata_bokeh.py plots archived tabular data
+
+
 feb 25
 Bokeh is really good.
 Have a bokeh power stripchart working !!
