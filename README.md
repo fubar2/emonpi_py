@@ -1,6 +1,7 @@
 # emonpi_py
 
 feb 25
+Bokeh is really good.
 Have a bokeh power stripchart working !!
 Date times on x axis need fixin but, holy sheet it works.
 
