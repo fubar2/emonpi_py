@@ -7,7 +7,8 @@ import paho.mqtt.client as mqtt
 import time
 
 OUTFNAME = 'mqtt_emon.xls'
-PI_IP = "192.168.1.3" # YMMV
+PI_IP = "192.168.1.4" # YMMV
+SUBS = "emonhub/rx/5/values"
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -15,7 +16,7 @@ def on_connect(client, userdata, flags, rc):
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    subs = client.subscribe("#")
+    subs = client.subscribe(SUBS)
     print 'Subscription returned:', str(subs)
 
 # The callback for when a PUBLISH message is received from the server.

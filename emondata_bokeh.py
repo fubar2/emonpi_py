@@ -66,7 +66,7 @@ p = figure(plot_width=800, plot_height=600, x_axis_type="datetime")
 
 p.xaxis.axis_label = "Time"
 p.xaxis.axis_label_text_color = "darkred"
-p.axis.major_label_text_font_size=value("10pt")
+p.xaxis.axis.label_text_font_size=value("10pt")
 p.xaxis.major_label_orientation = "vertical"
 p.yaxis.axis_label = "Power (KW)"
 p.lod_threshold = 1000
@@ -78,7 +78,7 @@ d = pd.read_csv(OLD_DATA,sep='\t',parse_dates=['traw',])
 source = ColumnDataSource(d )
 print 'processing % rows of old data' % len(d)
 print 'd=',d[:10]
-p.line(x='traw', y='kw', source=source, name="power_line", line_width="2", line_color="blue")
+p.line(x='traw', y='kw', source=source, line_width="1", line_color="navy", alpha=0.5)
 
     
 def callstop():
